@@ -51,14 +51,14 @@ export class ZeroSSL {
     const qs = this.queryString({ access_key: this.options.accessKey })
     const url = `${this.options.apiUrl}/certificates?${qs}`
 
-    let postFn = superagent.post(url)
+    const postFn = superagent.post(url)
       .type('form')
       .field('certificate_domains', options.domains.join(','))
       .field('certificate_csr', options.csr)
       .field('certificate_validity_days', options.validityDays)
       .field('strict_domains', options.strictDomains)
     
-    if (options.replacementForCertificate) postFn = postFn.field('replacement_for_certificate', options.replacementForCertificate as string)
+    if (options.replacementForCertificate) postFn.field('replacement_for_certificate', options.replacementForCertificate as string)
 
     const result = await this.performRequest(postFn)
     return result.body as CertificateRecord
